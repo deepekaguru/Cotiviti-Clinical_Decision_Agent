@@ -16,7 +16,7 @@ A Streamlit-based proof of concept that demonstrates agentic prepay claim screen
 
 ## Demo
 
-📹 [Watch the demo video](#) ← replace with your Loom link
+📹 Watch the demo video here - https://www.loom.com/share/c6334bd089e84179badb2d5a336970b3
 
 ---
 
