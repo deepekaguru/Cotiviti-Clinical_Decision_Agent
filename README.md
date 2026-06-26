@@ -1,17 +1,23 @@
 # Clinical Claim Decision Support Agent
-### Cotiviti Intern Assessment — Topic 2: Clinical Decision Making & Pattern Recognition
 
-**Deepeka Gurunathan | University of North Texas**
+**Cotiviti Intern Assessment — Topic 2: Clinical Decision Making & Pattern Recognition**
+Deepeka Gurunathan | University of North Texas | June 2026
 
 ---
 
 ## Overview
 
-A Streamlit-based proof of concept that demonstrates agentic clinical decision making for healthcare claims. The app combines three layers:
+A Streamlit-based proof of concept that demonstrates agentic prepay claim screening for healthcare payers. The agent combines three layers to analyze a claim and produce an auditable recommendation:
 
-1. **Rule-based risk classification** — flags diagnosis-procedure mismatches, overutilization, and high-cost anomalies
-2. **RAG policy retrieval** — retrieves relevant clinical billing policy from a ChromaDB vector store using OpenAI embeddings
-3. **LLM chain reasoning** — GPT-4o-mini explains the risk decision and recommends an action (Approve / Clinical Review / Deny)
+1. **Rule-based risk scoring** — flags diagnosis-procedure mismatches, high claim amounts, and overutilization patterns
+2. **LLM notes extraction** — GPT-4o-mini reads physician clinical documentation and extracts signals that confirm or contradict the billed diagnosis and procedure
+3. **RAG + chain reasoning** — retrieves the most relevant clinical billing policy via cosine similarity over OpenAI embeddings, then generates a final recommendation with a second LLM call
+
+---
+
+## Demo
+
+📹 [Watch the demo video](#) ← replace with your Loom link
 
 ---
 
@@ -19,46 +25,89 @@ A Streamlit-based proof of concept that demonstrates agentic clinical decision m
 
 - Python 3.11
 - Streamlit
-- OpenAI (GPT-4o-mini + text-embedding-3-small)
-- ChromaDB (in-memory vector store)
-- Pandas
+- OpenAI GPT-4o-mini + text-embedding-3-small
+- NumPy (cosine similarity RAG)
+- python-dotenv
 
 ---
 
 ## Setup
 
+**1. Clone the repo**
+```bash
+git clone https://github.com/your-username/cotiviti-clinical-decision-agent.git
+cd cotiviti-clinical-decision-agent
+```
+
+**2. Create and activate virtual environment**
+```bash
+python -m venv venv
+# Mac/Linux
+source venv/bin/activate
+# Windows
+venv\Scripts\activate
+```
+
+**3. Install dependencies**
 ```bash
 pip install -r requirements.txt
 ```
 
-Add your OpenAI API key in `app.py`:
-```python
-OPENAI_API_KEY = "your-openai-api-key-here"
+**4. Add your OpenAI API key**
+
+Create a `.env` file in the root directory:
+```
+OPENAI_API_KEY=sk-your-key-here
 ```
 
-Run the app:
+**5. Run the app**
 ```bash
 streamlit run app.py
 ```
 
 ---
 
-## Sample Data
+## Sample Claims
 
-`sample_claims.csv` includes 4 synthetic claim scenarios:
+Four synthetic claim scenarios are pre-loaded covering all risk levels:
 
-| Patient | Scenario | Expected Risk |
-|---|---|---|
-| P001 | Pneumonia + routine office visit | Routine |
-| P002 | Low back pain + knee replacement | High Risk |
-| P003 | Wellness exam + high complexity visit + overutilization | High Risk |
-| P004 | Heart attack + cardiac catheterization | Needs Review (high cost) |
+| Patient | Condition | Procedure | Expected Risk |
+|---|---|---|---|
+| P001 | Annual physical exam | Preventive medicine exam | ✅ Routine |
+| P002 | Ovarian cyst with polyp | Laparoscopic removal | ⚠️ Needs Review |
+| P003 | Lung nodule unspecified | Thoracoscopic lobectomy | 🚨 High Risk |
+| P004 | Acute myocardial infarction | Left heart catheterization | ⚠️ Needs Review |
 
 ---
 
-## Demo Flow
+## How It Works
 
-1. Upload `sample_claims.csv` or use the auto-loaded sample
-2. Select a claim row from the dropdown
-3. Click **Analyze Claim**
-4. View risk badge, flags, retrieved policy context, and agent reasoning
+```
+Claims data (ICD, CPT, amount, notes)
+        ↓
+Layer 1: Rule-based scoring → risk flags
+        ↓
+Layer 2: LLM notes extraction → clinical signals
+        ↓
+Layer 3: RAG policy retrieval + LLM chain reasoning
+        ↓
+Output: Risk level + policy context + agent recommendation
+```
+
+---
+
+## Deliverables
+
+- `app.py` — Streamlit application
+- `requirements.txt` — Python dependencies
+- `report.docx` — Written report (APA format)
+- `cotiviti_presentation.pptx` — Slide deck
+- Demo video — linked above
+
+---
+
+## Notes
+
+- No real patient data is used — all claims are synthetic
+- ChromaDB dependency removed; RAG implemented with NumPy cosine similarity for cross-platform compatibility
+- Session state preserves analysis results when switching between claims
