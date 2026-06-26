@@ -1,7 +1,6 @@
 # Clinical Claim Decision Support Agent
 
-**Cotiviti Intern Assessment — Topic 2: Clinical Decision Making & Pattern Recognition**
-Deepeka Gurunathan | University of North Texas | June 2026
+**Cotiviti - Clinical Decision Making & Pattern Recognition**
 
 ---
 
