@@ -95,16 +95,6 @@ Output: Risk level + policy context + agent recommendation
 
 ---
 
-## Deliverables
-
-- `app.py` — Streamlit application
-- `requirements.txt` — Python dependencies
-- `report.docx` — Written report (APA format)
-- `cotiviti_presentation.pptx` — Slide deck
-- Demo video — linked above
-
----
-
 ## Notes
 
 - No real patient data is used — all claims are synthetic
