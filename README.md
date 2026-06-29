@@ -98,5 +98,4 @@ Output: Risk level + policy context + agent recommendation
 ## Notes
 
 - No real patient data is used — all claims are synthetic
-- ChromaDB dependency removed; RAG implemented with NumPy cosine similarity for cross-platform compatibility
 - Session state preserves analysis results when switching between claims
